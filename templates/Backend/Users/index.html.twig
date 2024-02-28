@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Administration des utilisateurs
+	{{parent()}}
+{% endblock %}
+
+{% block body %}
+	<section class="container mt-2">
+		<h1 class="text-center">Administration des utilisateurs</h1>
+		<div class="card-list mt-2">
+			{% for user in users %}
+				<div class="blog-card">
+					<div class="blog-card-content">
+						<h2 class="blog-card-header">{{user.fullName()}}</h2>
+						<p>
+							<strong>Email :
+							</strong>
+							{{user.email}}</p>
+						<p>
+							{% for role in user.roles %}
+								{{role == 'ROLE_ADMIN' ? 'Admin' : 'User'}}
+							{% endfor %}
+						</p>
+						<div class="blog-card-btn">
+							<a href="#" class="btn btn-warning">
+								<i class="bi bi-pencil-square"></i>Modifier</a>
+							{% include "Backend/Users/_deleteForm.html.twig" %}
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</section>
+{% endblock %}

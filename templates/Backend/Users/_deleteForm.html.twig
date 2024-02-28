@@ -1,0 +1,6 @@
+<form action="#" method="post" onsubmit="return confirm('Etes vous sur de vouloir supprimer?')">
+	<input type="hidden" name="token" value="{{ csrf_token('delete' ~ user.id) }}">
+	<button class="btn btn-danger">
+		<i class="bi bi-trash3-fill"></i>
+		Supprimer</button>
+</form>
