@@ -14,6 +14,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 #[UniqueEntity('title')]
+#[ORM\HasLifecycleCallbacks]
 class Article
 {
     use DateTimeTrait,
