@@ -2,36 +2,35 @@
 
 namespace App\Entity\Traits;
 
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 trait DateTimeTrait
 {
     #[ORM\Column]
-    
-    private ?\DateTimeInterface $createdAt = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
-   
-    private ?\DateTimeInterface $updatedAt = null;
+    private ?\DateTimeImmutable $updatedAt = null;
 
-    public function getCreatedAt(): ?DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): static
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
 
@@ -41,13 +40,12 @@ trait DateTimeTrait
     #[ORM\PrePersist()]
     public function setAutoCreatedAt(): void
     {
-        $this->createdAt = new DateTimeInterface();
+        $this->createdAt = new DateTimeImmutable();
     }
 
     #[ORM\PreUpdate()]
-    public function setAutoUpdatedAt(): voidS
+    public function setAutoUpdatedAt(): void
     {
-        $this->updatedAt = new DateTimeInterface();
+        $this->updatedAt = new DateTimeImmutable();
     }
-
 }

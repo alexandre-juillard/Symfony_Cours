@@ -37,7 +37,7 @@ class SecurityController extends AbstractController
     {
         $user = new User;
 
-        //on crée le formulaire avec infos du user en instanciant un User avant
+        //on crée le formulaire en instanciant un User avant
        $form = $this->createForm(UserType::class, $user);
        
        //on stocke les infos de la requete du formulaire pour soummetre à verification
