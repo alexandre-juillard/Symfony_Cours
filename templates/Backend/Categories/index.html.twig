@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Administration des catégorie
+	{{parent()}}
+{% endblock %}
+
+{% block stylesheets %}
+	{{parent()}}
+	{{encore_entry_link_tags('admin')}}
+{% endblock %}
+
+{% block javascripts %}
+	{{parent()}}
+	{{encore_entry_script_tags('admin')}}
+{% endblock %}
+
+{% block body %}
+	<section class="container mt-2">
+		<h1 class="text-center">Administration des catégories</h1>
+		<a href="{{path('admin.categories.create')}}" class="btn btn-warning">Créer une catégorie</a>
+		<div class="card-list mt-2">
+			{% for categorie in categories %}
+				{% include "Components/_categorieCard.html.twig" %}
+			{% endfor %}
+		</div>
+	</section>
+{% endblock %}
