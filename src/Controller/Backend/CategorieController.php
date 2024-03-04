@@ -27,7 +27,7 @@ class CategorieController extends AbstractController
     public function index(): Response
     {
         return $this->render('Backend/categories/index.html.twig', [
-            'categories' => $this->categorieRepo->findAll(),
+            'categories' => $this->categorieRepo->findAllOrderbyTitle(),
         ]);
     }
 
@@ -106,6 +106,7 @@ class CategorieController extends AbstractController
     public function switch(?Categorie $categorie): JsonResponse
     {
         if(!$categorie) {
+            //pour les API, la class JsonResponse permet d'afficher dynamiquement sans recharger la page
             return new JsonResponse([
                 'status' => 'Error',
                 'message' => 'Catégorie non trouvée'

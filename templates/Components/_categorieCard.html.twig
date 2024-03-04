@@ -1,9 +1,6 @@
 <div class="blog-card">
 	<div class="blog-card-content">
-		<p>
-			<i class="bi bi-calendar2-week-fill"></i>
-			{{categorie.createdAt|format_datetime('short', 'none', locale='fr')}}
-		</p>
+
 		<h2 class="blog-card-header">{{categorie.title}}</h2>
 		<div class="form-check form-switch">
 			<input class="form-check-input" type="checkbox" id="switch-visibility-categorie-{{ categorie.id }}" {{ categorie.enable ? 'checked' }} data-switch-categorie="{{ categorie.id }}"/>
