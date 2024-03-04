@@ -4,9 +4,12 @@ namespace App\Form;
 
 use App\Entity\Article;
 use App\Entity\Categorie;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -24,16 +27,25 @@ class ArticleType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Mon Titre ici...'
                 ]
-            ]) 
-            ->add('categories', ChoiceType::class, [
-                'label' => 'Categorie(s) :',
+            ])
+            //choix multiple de catégories (voir doc symfo)
+            ->add('categories', EntityType::class, [
+                'label' => 'Catégorie :',
+                'required' => false,
                 'placeholder' => 'Sélectionner une ou plusieurs catégories',
-                'choices' => [
-                   'Frontent' => 1,
-                   'Backend' => 2,
-                ],
-                'expanded' => true,
-                'multiple' =>true,
+                'class' => Categorie::class,
+                'choice_label' => 'title',
+                'query_builder' => function (EntityRepository $er): QueryBuilder {
+                    return $er->createQueryBuilder('c')
+                        ->andWhere('c.enable = :enable')
+                        ->setParameter('enable', true)
+                        ->orderBy('c.title', 'ASC');
+                },
+                'expanded' => false,
+                'multiple' => true,
+                //uniquement en relation ManyToMany car le setter n'existe pas
+                'by_reference' => false,
+                'autocomplete' => true,
             ])
             ->add('imageFile', VichImageType::class, [
                 'label' => 'Image :',
@@ -61,7 +73,7 @@ class ArticleType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Article::class,
-            'isAdmin' => false,
+            'sanitize_html' => true,
         ]);
     }
 }

@@ -1,7 +1,9 @@
 <div class="blog-card">
 	{% if article.imageName %}
 		<div class="blog-card-img">
-			<img src="{{ vich_uploader_asset(article) }}" alt="article.title" loading="lazy">
+			<a href="{{path('app.articles.show', {slug: article.slug})}}">
+				<img src="{{ vich_uploader_asset(article) }}" alt="article.title" loading="lazy">
+			</a>
 		</div>
 
 	{% endif %}
@@ -10,28 +12,38 @@
 		<p>
 			<i class="bi bi-calendar2-week-fill"></i>
 			{{article.createdAt|format_datetime('short', 'none', locale='fr')}}</p>
-		<h2 class="blog-card-header">{{ article.title|slice(0, 20) ~ '...'}}</h2>
+		<a href="{{path('app.articles.show', {slug: article.slug})}}">
+			<h2 class="blog-card-header">{{ article.title|slice(0, 20) ~ '...'}}</h2>
+		</a>
+
+		<p>
+			{% for categorie in article.categories %}
+				#{{categorie.title}}</p>
+		{% endfor %}
 
 		<p>
 			<strong>Description :
 			</strong>
-			{{article.description|slice(0, 20) ~ '...'}}</p>
+			{{article.description|striptags|slice(0, 150) ~ '...'}}</p>
 		<p>
 			<strong>Auteur :
 			</strong>
 			{{ article.user.fullName() }}</p>
 
-		<div class="form-check form-switch">
-			<input class="form-check-input" type="checkbox" id="switch-visibility-article-{{ article.id }}" {{ article.enable ? 'checked' }} data-switch-article="{{ article.id }}"/>
-			<label class="form-check-label" for="switch-visibility-article-{{ article.id }}">{{ article.enable ? 'Actif' : 'Non actif' }}</label>
-		</div>
+		{# {{dump(app.request.get('_route'))}} #}
+		{% if app.request.get('_route') == 'admin.articles.index' %}
 
-		<div class="blog-card-btn">
-			<a href="{{ path('admin.articles.edit', {slug: article.slug}) }}" class="btn btn-warning">
-				<i class="bi bi-pencil-square"></i>Modifier</a>
+			<div class="form-check form-switch">
+				<input class="form-check-input" type="checkbox" id="switch-visibility-article-{{ article.id }}" {{ article.enable ? 'checked' }} data-switch-article="{{ article.id }}"/>
+				<label class="form-check-label" for="switch-visibility-article-{{ article.id }}">{{ article.enable ? 'Actif' : 'Non actif' }}</label>
+			</div>
 
-			{% include "Backend/Articles/_deleteForm.html.twig" %}
-		</div>
+			<div class="blog-card-btn">
+				<a href="{{ path('admin.articles.edit', {slug: article.slug}) }}" class="btn btn-warning">
+					<i class="bi bi-pencil-square"></i>Modifier</a>
 
+				{% include "Backend/Articles/_deleteForm.html.twig" %}
+			</div>
+		{% endif %}
 	</div>
 </div>

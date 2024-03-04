@@ -21,6 +21,22 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
+    public function findAllOrderByDate(bool $includeDisable = false): array
+    {
+        $query = $this->createQueryBuilder('a');
+
+        if (!$includeDisable) {
+            $query
+                ->andWhere('a.enable = :enable')
+                ->setParameter('enable', true);
+        }
+
+        return $query
+            ->orderBy('a.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Article[] Returns an array of Article objects
     //     */

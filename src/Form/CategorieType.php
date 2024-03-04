@@ -33,7 +33,7 @@ class CategorieType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Categorie::class,
-            'isAdmin' => false,
+            'sanitize_html' => true,
         ]);
     }
 }

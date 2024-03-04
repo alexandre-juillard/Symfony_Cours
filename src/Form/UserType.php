@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
 class UserType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options) 
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('firstName', TextType::class, [
@@ -27,7 +27,7 @@ class UserType extends AbstractType
             ])
             ->add('lastName', TextType::class, [
                 'label' => 'Nom :',
-                'required' =>false,
+                'required' => false,
                 'attr' => [
                     'placeholder' => 'Carlson'
                 ]
@@ -52,30 +52,30 @@ class UserType extends AbstractType
                             'max' => 4096
                         ]),
                         new Assert\Regex(
-                             pattern: '/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/' 
+                            pattern: '/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/'
                         ),
                     ],
                     'help' => 'Le mot de passe doit contenir au minimum 1 lettre majuscule, 1 lettre minuscule, 1 chiffre et un caractère spécial.',
                 ],
                 'second_options' => [
-                    'label' => 'Confirmez le mot de passe :', 
+                    'label' => 'Confirmez le mot de passe :',
                 ]
             ]);
 
-            if($options['isAdmin']){
-                $builder
-                    ->remove('password')
-                    ->add('roles', ChoiceType::class, [
+        if ($options['isAdmin']) {
+            $builder
+                ->remove('password')
+                ->add('roles', ChoiceType::class, [
                     'label' => 'Roles :',
                     'placeholder' => 'Sélectionner un role',
                     'choices' => [
                         'Utilisateur' => 'ROLE_USER',
-                         'Administrateur' => 'ROLE_ADMIN',
+                        'Administrateur' => 'ROLE_ADMIN',
                     ],
                     'expanded' => true,
                     'multiple' => true,
-                    ]);
-            }
+                ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -83,7 +83,7 @@ class UserType extends AbstractType
         $resolver->setDefaults([
             'data_class' => User::class,
             'isAdmin' => false,
+            'sanitize_html' => true,
         ]);
     }
-
-} 
+}
