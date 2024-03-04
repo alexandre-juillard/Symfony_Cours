@@ -23,7 +23,10 @@ class ArticleRepository extends ServiceEntityRepository
 
     public function findAllOrderByDate(bool $includeDisable = false): array
     {
-        $query = $this->createQueryBuilder('a');
+        $query = $this->createQueryBuilder('a')
+            ->select('a', 'c', 'u')
+            ->leftJoin('a.categories', 'c')
+            ->join('a.user', 'u');
 
         if (!$includeDisable) {
             $query

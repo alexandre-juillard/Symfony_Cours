@@ -26,7 +26,7 @@ class ArticleController extends AbstractController
     public function index(): Response
     {
         return $this->render('Backend/articles/index.html.twig', [
-            'articles' => $this->articleRepo->findAll(),
+            'articles' => $this->articleRepo->findAllOrderByDate(true),
         ]);
     }
 
@@ -34,12 +34,12 @@ class ArticleController extends AbstractController
     public function create(Request $request): Response|RedirectResponse
     {
         $article = new Article;
-        
+
         $form = $this->createForm(ArticleType::class, $article);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             //on recupere le user connecté
             $user = $this->getUser();
 
@@ -62,7 +62,7 @@ class ArticleController extends AbstractController
     public function edit(?Article $article, Request $request): Response|RedirectResponse
     {
         //slug dans URL se trouve grace a l'objet en parametre dans la methode (Article)
-        if(!$article) {
+        if (!$article) {
             $this->addFlash('error', 'Article introuvable');
 
             return $this->redirectToRoute('admin.articles.index');
@@ -72,7 +72,7 @@ class ArticleController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $this->em->persist($article);
             $this->em->flush();
@@ -90,13 +90,13 @@ class ArticleController extends AbstractController
     #[Route('/{id}/delete', '.delete', methods: ['POST'])]
     public function delete(?Article $article, Request $request): RedirectResponse
     {
-        if(!$article) {
+        if (!$article) {
             $this->addFlash('error', 'Article non trouvé');
 
             return $this->redirectToRoute('admin.articles.index');
         }
 
-        if($this->isCsrfTokenValid('delete' . $article->getId(), $request->request->get('token'))) {
+        if ($this->isCsrfTokenValid('delete' . $article->getId(), $request->request->get('token'))) {
             $this->em->remove($article);
             $this->em->flush();
 
@@ -111,7 +111,7 @@ class ArticleController extends AbstractController
     #[Route('/{id}/switch', '.switch', methods: ['GET'])]
     public function switch(?Article $article): JsonResponse
     {
-        if(!$article) {
+        if (!$article) {
             return new JsonResponse([
                 'status' => 'Error',
                 'message' => 'Article non trouvé'
