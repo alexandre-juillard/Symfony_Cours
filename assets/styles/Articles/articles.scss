@@ -1,27 +1,62 @@
-.banner-hero{
-    @include flexbox(center, center);
-    height: calc(100vh - 60px);
-
-    &-header{
-        background: rgba(27, 39, 49, 0.6);
-        border-radius: $border-radius;
-        padding: 0.6em 1em;
-        border: 1px solid $grey;
-        box-shadow: $box-shadow-card;
-        --webkit-backdrop-filter: blur(8px);
-        backdrop-filter: blur(8px);
-
-        h1{
-            color: $white;
-        }
-    }
+@mixin banner-header {
+  background: rgba(27, 39, 49, 0.6);
+  border-radius: $border-radius;
+  padding: 0.6em 1em;
+  border: 1px solid $grey;
+  box-shadow: $box-shadow-card;
+  --webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 
-.article-sidebar{
-    &-tags{
-        @include flexbox(flex-start, center, 0.5em);
-        span{
-            font-size: 1.1em;
-        }
+.banner-hero {
+  @include flexbox(center, center);
+  height: calc(100vh - 60px);
+
+  &.no-img {
+    height: calc(30vh - 60px);
+    background: linear-gradient(45deg, $primary, $secondary);
+  }
+
+  &-header {
+    @include banner-header();
+
+    h1 {
+      color: $white;
     }
+  }
+}
+
+.slider-article {
+  height: calc(100vh - 60px);
+  width: 100%;
+  position: relative;
+
+  &-header {
+    @include banner-header;
+    z-index: 1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  h1 {
+    color: $white;
+  }
+  .swiper-slide {
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+.article-sidebar {
+  &-tags {
+    @include flexbox(flex-start, center, 0.5em);
+    span {
+      font-size: 1.1em;
+    }
+  }
 }
