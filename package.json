@@ -2,8 +2,13 @@
     "devDependencies": {
         "@babel/core": "^7.17.0",
         "@babel/preset-env": "^7.16.0",
+        "@commitlint/cli": "^19.0.3",
+        "@commitlint/config-conventional": "^19.0.3",
+        "@commitlint/cz-commitlint": "^19.0.3",
         "@symfony/webpack-encore": "^4.0.0",
+        "commitizen": "^4.3.0",
         "core-js": "^3.23.0",
+        "husky": "^9.0.11",
         "regenerator-runtime": "^0.13.9",
         "sass": "^1.71.1",
         "sass-loader": "^14.0.0",
@@ -17,8 +22,15 @@
         "dev-server": "encore dev-server",
         "dev": "encore dev",
         "watch": "encore dev --watch",
-        "build": "encore production --progress"
+        "build": "encore production --progress",
+        "postinstall": "husky init",
+        "prepare": "husky"
     },
+    "config": {
+        "commitizen": {
+            "path": "./cz-adapter.cjs"
+        }
+      },
     "dependencies": {
         "@hotwired/stimulus": "^3.2.2",
         "@hotwired/turbo": "^8.0.3",
