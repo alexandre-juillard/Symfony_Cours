@@ -4,8 +4,9 @@ namespace App\Form;
 
 use App\Entity\Article;
 use App\Entity\Categorie;
-use Doctrine\ORM\EntityRepository;
+use App\Form\ArticleImageType;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Vich\UploaderBundle\Form\Type\VichImageType;
@@ -15,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class ArticleType extends AbstractType
 {
@@ -47,13 +49,14 @@ class ArticleType extends AbstractType
                 'by_reference' => false,
                 'autocomplete' => true,
             ])
-            ->add('imageFile', VichImageType::class, [
-                'label' => 'Image :',
+            ->add('images', CollectionType::class, [
                 'required' => false,
+                'label' => false,
+                'entry_type' => ArticleImageType::class,
+                'allow_add' => true,
                 'allow_delete' => true,
-                'delete_label' => 'Supprimer l\'image',
-                'image_uri' => true,
-                'download_uri' => true,
+                'delete_empty' => true,
+                'by_reference' => false,
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description :',
