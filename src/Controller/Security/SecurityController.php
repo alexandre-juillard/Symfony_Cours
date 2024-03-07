@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -28,42 +29,41 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    #[Route('/register', 'app.register',methods: ['GET', 'POST'])]
+    #[Route('/register', 'app.register', methods: ['GET', 'POST'])]
     public function register(
-        Request $request, 
+        Request $request,
         UserPasswordHasherInterface $hasher,
         EntityManagerInterface $em,
-        ): Response | RedirectResponse 
-    {
+    ): Response | RedirectResponse {
         $user = new User;
 
         //on crée le formulaire en instanciant un User avant
-       $form = $this->createForm(UserType::class, $user);
-       
-       //on stocke les infos de la requete du formulaire pour soummetre à verification
-       $form->handleRequest($request);
+        $form = $this->createForm(UserType::class, $user);
 
-       //verif si formulaire est soumis et valide
-       if($form->isSubmitted() && $form->isValid()) {
-        $user
-        ->setPassword(
-            $hasher->hashPassword($user, $form->get('password')->getData())
-            //password est hash
-        );
+        //on stocke les infos de la requete du formulaire pour soummetre à verification
+        $form->handleRequest($request);
 
-        //file d'attente et envoie en bdd
-        $em->persist($user);
-        $em->flush();
+        //verif si formulaire est soumis et valide
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user
+                ->setPassword(
+                    $hasher->hashPassword($user, $form->get('password')->getData())
+                    //password est hash
+                );
 
-        //message de succes
-        $this->addFlash('success', 'Votre inscription a été prise en compte Merci!');
+            //file d'attente et envoie en bdd
+            $em->persist($user);
+            $em->flush();
 
-        //redirection a page de login
-        return $this->redirectToRoute('app.login');
-       }
+            //message de succes
+            $this->addFlash('success', 'Votre inscription a été prise en compte Merci!');
 
-       return $this->render('Security/register.html.twig', [
+            //redirection a page de login
+            return $this->redirectToRoute('app.login');
+        }
+
+        return $this->render('Security/register.html.twig', [
             'form' => $form
-       ]);
+        ]);
     }
 }

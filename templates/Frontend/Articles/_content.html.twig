@@ -1,3 +1,25 @@
 <article class="col-md-8">
 	{{article.description|sanitize_html}}
+
 </article>
+
+<section class="mt-4 col-md-8 ms-auto">
+	<h2>Commentaires</h2>
+
+	{% if app.user %}
+		{% include "Frontend/Articles/_commentForm.html.twig" with {labelButton: 'Commenter cet article'} %}
+	{% else %}
+		<div class="alert alert-info mt-3" role="alert">
+			<p>Vous devez être connecté pour poster un commentaire</p>
+			<a href="{{path('app.login')}}" class="alert-link">Se connecter</a>
+		</div>
+	{% endif %}
+</section>
+
+<section class="mt-2 col-md-8 ms-auto">
+	{% for commentaire in article.commentaires %}
+		{% if commentaire.enable %}
+			{% include "Components/_commentCard.html.twig" %}
+		{% endif %}
+	{% endfor %}
+</section>

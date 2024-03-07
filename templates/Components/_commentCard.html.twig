@@ -1,0 +1,13 @@
+<div class="card border-secondary">
+	<p class="card-header bg-primary text-light mb-0">{{ commentaire.title }}</p>
+	<div class="card-body">
+		<p class="card-text">{{ commentaire.user.fullName }}</p>
+		<p class="card-text">{{ commentaire.description|sanitize_html }}</p>
+		<p class="card-text">
+			{% for i in range(0, 4) %}
+				<i class="bi bi-star{{ i < commentaire.rate ? '-fill' }}"></i>
+			{% endfor %}
+		</p>
+		<p class="card-text text-muted">{{ commentaire.createdAt|ago }}</p>
+	</div>
+</div>

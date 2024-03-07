@@ -1,0 +1,29 @@
+.show-comments {
+  margin-bottom: 3em;
+}
+
+.comments-list {
+  @include flexbox(flex-start, flex-start, 1em);
+}
+
+.comment {
+  &-item {
+    border: 1px solid $secondary;
+    border-radius: $border-radius;
+    overflow: hidden;
+  }
+
+  &-item::after,
+  &-item::before {
+    box-sizing: border-box;
+  }
+
+  &-header {
+    background: $primary;
+    padding: 5px 10px;
+  }
+
+  &-content {
+    padding: 1em;
+  }
+}

@@ -41,6 +41,9 @@
 				<a href="{{ path('admin.articles.edit', {slug: article.slug}) }}" class="btn btn-warning">
 					<i class="bi bi-pencil-square"></i>Modifier</a>
 
+				<a href="{{ path('admin.commentaires.index', {slug: article.slug}) }}" class="btn btn-warning">
+					<i class="bi bi-chat-text"></i>Commentaires</a>
+
 				{% include "Backend/Articles/_deleteForm.html.twig" %}
 			</div>
 		{% endif %}

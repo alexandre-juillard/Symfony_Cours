@@ -1,0 +1,26 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Administration des commentaires
+	{{parent()}}
+{% endblock %}
+
+{% block stylesheets %}
+	{{parent()}}
+	{{encore_entry_link_tags('admin')}}
+{% endblock %}
+
+{% block javascripts %}
+	{{parent()}}
+	{{encore_entry_script_tags('admin')}}
+{% endblock %}
+
+{% block body %}
+	<section class="container mt-2">
+		<h1 class="text-center">Administration des commentaires</h1>
+
+		<div class="d-flex flex-wrap gap-2 align-items-center">
+			{% include "Components/_commentCard.html.twig" %}
+		</div>
+	</section>
+{% endblock %}
